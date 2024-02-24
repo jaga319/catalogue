@@ -30,12 +30,24 @@ pipeline {
                 """
             }
         }
+        stage ('Build'){
+            steps{
+                sh """
+                   ls -la
+                   zip -r catalogue.zip ./* -x ".git" -x ".zip"
+                   ls -ltr
+                """
+            }
+        }
+
+        
     }
     // post build 
      post { 
         always { 
 
             echo 'I will always run'
+            deleteDir()
         }
         failure{
             echo 'job is failed , creating an alarm'
