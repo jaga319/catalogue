@@ -44,13 +44,13 @@ pipeline {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '172.31.0.69',
+                    nexusUrl: '172.31.0.69:8081',
                     groupId: 'com.roboshop',
                     version: "${packageversion}",
                     repository: 'catalogue',
                     credentialsId: 'nexus-auth',
                     artifacts: [
-                        [artifactId: catalogue,
+                        [artifactId: 'catalogue',
                         classifier: '',
                         file: 'catalogue.zip',
                         type: 'zip']
