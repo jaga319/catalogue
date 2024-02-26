@@ -9,6 +9,10 @@ pipeline {
         disableConcurrentBuilds()
         ansiColor('xterm')
     }
+    parameters {
+                booleanParam(name: 'deploy', defaultValue: false, description: 'confirm to deploy ?')
+
+    }
     // Build //
     environment {
         packageversion = ''
@@ -44,7 +48,7 @@ pipeline {
             steps{
                 sh """
                   sonar-scanner
-                  
+
                 """
             }
         }
@@ -78,6 +82,11 @@ pipeline {
               
         }
         stage("deploy") {
+              when{
+                expression{
+                 params.deploy = true
+                }
+              }
               steps{
                    script {
                     build job: "catalogue-deploy", wait: true , parameters: [string(name: 'version', value: "${packageversion}")]
