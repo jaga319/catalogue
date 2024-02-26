@@ -44,7 +44,7 @@ pipeline {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '172.31.0.69:8081',
+                    nexusUrl: '172.31.93.251:8081',
                     groupId: 'com.roboshop',
                     version: "${packageversion}",
                     repository: 'catalogue',
