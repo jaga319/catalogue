@@ -27,73 +27,7 @@ pipeline {
                 }
             }
         }
-        stage ('install dependencies'){
-            steps{
-                sh """
-
-                 npm install
-
-                """
-            }
-        }
-        stage ('unit-testing'){
-            steps{
-                sh """
-                   echo " performing unit testing "
-
-                """
-            }
-        }
-        stage ('sonar-scan'){
-            steps{
-                sh """
-                  sonar-scanner
-
-                """
-            }
-        }
-        stage ('Build'){
-            steps{
-                sh """
-                   ls -la
-                   zip -q -r catalogue.zip ./* -x ".git" -x ".zip"
-                   ls -ltr
-                """
-            }
-        }
-        stage ('publish artifact'){
-            steps{
-                nexusArtifactUploader(
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    nexusUrl: '172.31.93.251:8081',
-                    groupId: 'com.roboshop',
-                    version: "${packageversion}",
-                    repository: 'catalogue',
-                    credentialsId: 'nexus-auth',
-                    artifacts: [
-                        [artifactId: 'catalogue',
-                        classifier: '',
-                        file: 'catalogue.zip',
-                        type: 'zip']
-                    ]
-                )
-            }
-              
-        }
-        stage("deploy") {
-              when{
-                expression{
-                 params.deploy = true
-                }
-              }
-              steps{
-                   script {
-                    build job: "catalogue-deploy", wait: true , parameters: [string(name: 'version', value: "${packageversion}")]
-                   }
-
-              }
-            }
+        
 
 
         
