@@ -26,7 +26,25 @@ pipeline {
         stage ('install dependencies'){
             steps{
                 sh """
+
                  npm install
+
+                """
+            }
+        }
+        stage ('unit-testing'){
+            steps{
+                sh """
+                   echo " performing unit testing "
+
+                """
+            }
+        }
+        stage ('sonar-scan'){
+            steps{
+                sh """
+                  sonar-scanner
+                  
                 """
             }
         }
